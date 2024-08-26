@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,17 +27,19 @@ public class EstoqueController {
 	@Qualifier("estoqueRepository")
 	EstoqueRepository estoqueRepository;
 	
+	@Hidden
+	@GetMapping("/lista")
+	public List<Estoque> getTodoEstoque() {
+		return estoqueRepository.findAll();
+	}
 	
+	@PostMapping("/atualiza")
 	public String atualiza(@RequestBody Estoque estoque) {
 		logger.info("Recebido via REST: "+estoque);
 		estoqueRepository.save(estoque);
 		return "OK";
 	}
 	
-	@Hidden
-	@GetMapping("/lista")
-	public List<Estoque> getTodoEstoque() {
-		return estoqueRepository.findAll();
-	}
+
 
 }
