@@ -11,13 +11,12 @@ import com.mongodb.client.MongoClients;
 public class MongoReactiveConfig extends AbstractReactiveMongoConfiguration{
 	
 	@Bean
-	public MongoClient mongoReactiveCliente() {
+	public MongoClient mongoReactiveClient() {
 		return MongoClients.create();
 	}
-	
+
 	@Override
 	protected String getDatabaseName() {
 		return "test";
 	}
-
 }

@@ -18,17 +18,18 @@ public class Producer {
 
 	@Autowired
 	private LogFilaRepository logFilaRepository;
-	
+
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 
 	public void send(Estoque message) throws Exception {
 
 		logger.info("Enviando mensagem...");
-	
+
 		logFilaRepository.save(new LogFila("Enviando",message.toString()));
-		
+
 		rabbitTemplate.convertAndSend(RabbitmqConfig.QUEUE_NAME, message);
-		
+
 	}
+
 }

@@ -45,7 +45,7 @@ public class RabbitmqConfig {
 	@Bean
 	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
 			MessageListenerAdapter listenerAdapter) {
-		var container = new SimpleMessageListenerContainer();
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(QUEUE_NAME);
 		container.setMessageListener(listenerAdapter);
@@ -55,11 +55,6 @@ public class RabbitmqConfig {
 	@Bean
 	MessageListenerAdapter listenerAdapter(Consumer consumer) {
 		return new MessageListenerAdapter(consumer, RECEIVE_MESSAGE);
-	}
-
-	@Bean
-	public MessageConverter jsonConverter() {
-		return new Jackson2JsonMessageConverter();
 	}
 
 }

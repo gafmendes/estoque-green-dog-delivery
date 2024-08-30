@@ -19,8 +19,11 @@ public class RepositoryTest implements ApplicationRunner {
 
 	private final Logger logger = LoggerFactory.getLogger(RepositoryTest.class.getSimpleName());
 
-	@Autowired
-	private EstoqueRepository repository;
+	private final EstoqueRepository repository;
+
+	public RepositoryTest(EstoqueRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public void run(ApplicationArguments applicationArguments) throws Exception {

@@ -25,62 +25,56 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api")
 public class EstoqueController {
-	
-	private final Logger logger = LoggerFactory.getLogger(EstoqueController.class.getSimpleName());
-	
+
 	@Autowired
 	@Qualifier("estoqueRepository")
 	EstoqueRepository estoqueRepository;
-	
-	@Autowired 
+
+	@Autowired
 	@Qualifier("reactiveEstoqueRepository")
 	ReactiveEstoqueRepository reactiveEstoqueRepository;
-	
-	@Hidden
+
+	private final Logger logger = LoggerFactory.getLogger(EstoqueController.class.getSimpleName());
+
 	@GetMapping("/lista")
 	public List<Estoque> getTodoEstoque() {
 		return estoqueRepository.findAll();
 	}
-	
+
 	@PostMapping("/atualiza")
 	public String atualiza(@RequestBody Estoque estoque) {
-		logger.info("Recebido via REST: "+estoque);
+		logger.info("Recebido via REST: " + estoque);
 		estoqueRepository.save(estoque);
-		return "OK";
+		return "Ok";
 	}
-	
-	@Hidden
+
 	@GetMapping("/")
 	@ResponseBody
-	public Mono<String> one(){
-		return Mono.just("API");
+	public Mono<String> one() {
+		return Mono.just("API ");
 	}
-	
-	@Hidden
+
 	@GetMapping("/ultimos")
 	@ResponseBody
-	public Flux<Estoque> ultimos(){
+	public Flux<Estoque> ultimos() {
 		return reactiveEstoqueRepository.findTop10ByOrderByIdDesc();
 	}
-	
-	@Hidden
+
 	@GetMapping(value = "/lista-stream-com-pausa", produces = "text/event-stream")
-	public Flux<Estoque> getListaEstoqueStreamComPausa(){
+	public Flux<Estoque> getListaEstoqueStreamComPausa() {
 		return reactiveEstoqueRepository.findTop10ByOrderByIdDesc().delayElements(Duration.ofMillis(300));
 	}
-	
-	@Hidden
-	@GetMapping(value = "/lista-stream", produces = "application/stream+json")
-	public Flux<Estoque> getListaEstoqueStream(){
+
+	@GetMapping(path = "/lista-stream", produces = "application/stream+json")
+	public Flux<Estoque> getListaEstoqueStream() {
 		return reactiveEstoqueRepository.findAll();
 	}
-	
-	@Hidden
+
 	@PostMapping("/atualiza-reativo")
-	public Mono<String> atualizaReativo(@RequestBody Estoque estoque){
-		logger.info("Recebido via REST: " +estoque);
+	public Mono<String> atualizaReativo(@RequestBody Estoque estoque) {
+		logger.info("Recebido via REST: " + estoque);
 		estoqueRepository.save(estoque);
-		return Mono.just("OK");
+		return Mono.just("Ok");
 	}
 
 }

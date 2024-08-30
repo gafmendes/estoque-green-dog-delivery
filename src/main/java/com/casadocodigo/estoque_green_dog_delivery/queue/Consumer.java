@@ -14,22 +14,24 @@ import com.casadocodigo.estoque_green_dog_delivery.repository.LogFilaRepository;
 
 @Component
 public class Consumer {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(Consumer.class.getSimpleName());
-	
 	@Autowired
 	private LogFilaRepository logFilaRepository;
-	
+
 	@Autowired
 	private EstoqueRepository estoqueRepository;
-	
-	@RabbitListener(queues = {"springboot.casadocodigo.queue"})
-	public void receiveMessage(@Payload Estoque mensagem) {
-		
-		logger.info("Recebido via fila: <" + mensagem + ">");
-		logFilaRepository.save(new LogFila("Recebendo", mensagem.toString()));
-		logger.info("Gravando: <" + mensagem + ">");
-		estoqueRepository.save(mensagem);
-	}
 
+	@RabbitListener(queues = { "springboot.boaglio.queue" })
+	public void receiveMessage(@Payload Estoque mensagem) {
+
+		logger.info("Recebido via fila: <" + mensagem + ">");
+
+		logFilaRepository.save(new LogFila("Recebendo", mensagem.toString()));
+
+		logger.info("Gravando: <" + mensagem + ">");
+
+		estoqueRepository.save(mensagem);
+
+	}
 }

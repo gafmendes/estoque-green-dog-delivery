@@ -18,11 +18,11 @@ import io.swagger.v3.oas.annotations.Hidden;
 public class LogController {
 
 	@Autowired
-	LogFilaRepository logFilaRepository;
+	LogFilaRepository logRepository;
 
 	@GetMapping("/logs")
 	public List<LogFila> getLogs() {
-		return logFilaRepository.findAll();
+		return logRepository.findAll();
 	}
-
+	
 }
